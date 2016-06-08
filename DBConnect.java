@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.sql.Date;
 
 import java.sql.DriverManager;
@@ -147,11 +148,40 @@ public class DBConnect {
 		return id;
 	}
 	
-	public void loadCSV(String csvpath){
+	public void loadCSVScorecard(File path){
 		
-		String query = "LOAD DATA INFILE '" + csvpath + "' INTO TABLE intern.employee";
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.onebiopsscorecard FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, path.getPath());
 
 	
+			
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		System.out.println("done");
+
+
+	}
+	
+	public void loadCSVEmployee(File path){
+		
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.employee FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, path.getPath());
+
+	
+			
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		System.out.println("done");
 	}
 	
 	

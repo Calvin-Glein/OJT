@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 public class FileSelector {
 	private static JFileChooser fileChooser = new JFileChooser();
 	private File csvFile;
-	private DBConnect db;
+	private DBConnect db = new DBConnect();;
 
 	public FileSelector() {
 
@@ -28,12 +28,18 @@ public class FileSelector {
 			csvFile = fileChooser.getSelectedFile();
 			System.out.println(csvFile.getName());
 			System.out.println(csvFile.getPath());
+			
 
+			
+//			System.out.println("sa csvsync  " + path);
+			db.loadCSVEmployee(csvFile);
 		}
+		
+		
 	}
 
-	public String syncCSV() {
-		db.loadCSV(csvFile.getPath());
+	public void syncCSV() {
+	
 		
 	}
 }

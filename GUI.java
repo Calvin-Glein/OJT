@@ -67,15 +67,18 @@ public class GUI{
 	
 	private Controller controller;
 	private final JLabel lblAutomaticSync = new JLabel("Automatic Sync");
-	private final JButton btnSelectcsvFile = new JButton("Select .csv file to sync");
+	private final JButton btnSelectEmployeeCSVFile = new JButton("Select employee (.csv)  file to sync");
+	private final JButton btnSelectScorecardCSVFile = new JButton("Select scorecard (.csv) file to sync");
 
 	public GUI() {
-		automaticPanel.setLayout(new MigLayout("", "[][]", "[][][][][]"));
+		automaticPanel.setLayout(new MigLayout("", "[][]", "[][][][][][]"));
 		lblAutomaticSync.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		automaticPanel.add(lblAutomaticSync, "cell 0 1");
 		
-		automaticPanel.add(btnSelectcsvFile, "cell 1 4");
+		automaticPanel.add(btnSelectEmployeeCSVFile, "cell 1 4");
+		
+		automaticPanel.add(btnSelectScorecardCSVFile, "cell 1 5");
 		manualPanel.setLayout(
 				new MigLayout("", "[46px][][grow]", "[14px][][][][][][][][][][][][][][][][][][][][][][][][]"));
 
@@ -301,6 +304,6 @@ public class GUI{
 	}
 	
 	void addAutomaticListener(ActionListener event ){
-		btnSelectcsvFile.addActionListener(event);
+		btnSelectEmployeeCSVFile.addActionListener(event);
 	}
 }

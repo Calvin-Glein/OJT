@@ -36,7 +36,6 @@ public class Controller {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			FileSelector fileSelector = new FileSelector();
-			System.out.println("pressed automatic");
 		}
 		
 		
