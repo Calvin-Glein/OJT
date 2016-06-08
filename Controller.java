@@ -10,23 +10,35 @@ public class Controller {
 	public Controller(GUI gui, Scorecard scorecard) {
 		this.gui = gui;
 		this.scorecard = scorecard;
-		this.gui.addEnterValuesListener(new GUIListener());
+		this.gui.addManualListener(new GUIListenerManual());
+		this.gui.addAutomaticListener(new GUIListenerAutomatic());
 	}
 
 
 
-	class GUIListener implements ActionListener{
+	class GUIListenerManual implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			
-			
+
 			db.addScore(new Scorecard(gui.getEmployeeID(), gui.getMonth(), gui.getYear(), gui.getFullname(),
 					gui.getTeam(), gui.getTotalTickets(), gui.getE2E(), gui.getDisputed(),
 					gui.getMissedTickets(), gui.getFYR(), gui.getControllableMis(),
 					gui.getCallRegistration(), gui.getCSAT(), gui.getQA(),
 					gui.getExternalEscalation()));
 		}
+		
+	}
+	
+	class GUIListenerAutomatic implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			FileSelector fileSelector = new FileSelector();
+			System.out.println("pressed automatic");
+		}
+		
 		
 	}
 	

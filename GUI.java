@@ -296,7 +296,11 @@ public class GUI{
 		return Integer.parseInt(txtExternalEscalation.getText());
 	}
 	
-	void addEnterValuesListener(ActionListener listenForEnterButton){
-		btnEnter.addActionListener(listenForEnterButton);
+	void addManualListener(ActionListener event){
+		btnEnter.addActionListener(event);
+	}
+	
+	void addAutomaticListener(ActionListener event ){
+		btnSelectcsvFile.addActionListener(event);
 	}
 }

@@ -147,6 +147,13 @@ public class DBConnect {
 		return id;
 	}
 	
+	public void loadCSV(String csvpath){
+		
+		String query = "LOAD DATA INFILE '" + csvpath + "' INTO TABLE intern.employee";
+
+	
+	}
+	
 	
 	
 	
