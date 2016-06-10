@@ -14,6 +14,9 @@ public class Controller {
 		this.gui.addAutomaticEmployeeListener(new GUIListenerEmployee());
 		this.gui.addAutomaticCSATListener(new GUIListenerCSAT());
 		this.gui.addAutomaticScorecardListener(new GUIListenerScorecard());
+		this.gui.addAutomaticQAListener(new GUIListenerQA());
+		this.gui.addAutomaticEscalationListener(new GUIListenerEscalation());
+		this.gui.addAutomaticSync(new GUIListenerSync());
 	}
 
 	class GUIListenerManual implements ActionListener {
@@ -36,12 +39,11 @@ public class Controller {
 			// TODO Auto-generated method stub
 			FileSelector fileSelector = new FileSelector();
 			fileSelector.employeeCSV();
-			
-			
+
 		}
 
 	}
-	
+
 	class GUIListenerCSAT implements ActionListener {
 
 		@Override
@@ -52,7 +54,7 @@ public class Controller {
 		}
 
 	}
-	
+
 	class GUIListenerScorecard implements ActionListener {
 
 		@Override
@@ -60,12 +62,47 @@ public class Controller {
 			// TODO Auto-generated method stub
 			FileSelector fileSelector = new FileSelector();
 			fileSelector.scorecardCSV();
-			
+
+		}
+
+	}
+
+	class GUIListenerQA implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			FileSelector fileSelector = new FileSelector();
+			fileSelector.qaCSV();
+
+		}
+
+	}
+
+	class GUIListenerEscalation implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			FileSelector fileSelector = new FileSelector();
+			fileSelector.escalationCSV();
+			 			 
+		}
+
+	}
+	
+	class GUIListenerSync implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			FileSelector fileSelector = new FileSelector();
+			fileSelector.sync();
+			 			 
 		}
 
 	}
 	
 	
-
 
 }

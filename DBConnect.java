@@ -138,7 +138,7 @@ public class DBConnect {
 
 	public void loadCSVScorecard(File path) {
 
-		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.temp_scorecard FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' "
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.scorecard FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' "
 				+ "IGNORE 1 LINES  (@date, name, team, total_tickets, e2e, disputed, missed_tickets, fyr, controllable_miss, call_registration) SET date = "
 				+ "STR_TO_DATE(@date, '%m/%d/%Y')";
 		try {
@@ -169,6 +169,22 @@ public class DBConnect {
 		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
 	
+
+	public void loadCSVQA(File path) {
+
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.qa FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, path.getPath());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
+	}
+	
 	public void loadCSVCSAT(File path) {
 
 		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.csat FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
@@ -183,6 +199,36 @@ public class DBConnect {
 		}
 		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
+	
+	public void loadCSVEscalation(File path) {
+
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.escalation FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, path.getPath());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
+	}
+	
+	public void sync(){
+		String query = "create table final_scorecard AS SELECT s.date, s.name, s.team, s.total_tickets, s.e2e, s.disputed, s.missed_tickets, s.fyr, s.controllable_miss, s.call_registration, c.csat, q.qa, e.escalation FROM csat c, scorecard s, qa q, escalation e where UPPER(TRIM(c.name)) =UPPER(TRIM(s.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(q.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(e.name)) group by date, name";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		JOptionPane.showMessageDialog(null, "Files synced");
+	}
+	
+	
 	
 	
 

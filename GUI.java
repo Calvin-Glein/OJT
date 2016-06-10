@@ -70,9 +70,12 @@ public class GUI{
 	private final JButton btnSelectEmployeeCSVFile = new JButton("Select employee (.csv)  file to sync");
 	private final JButton btnSelectScorecardCSVFile = new JButton("Select scorecard (.csv) file to sync");
 	private final JButton btnSelectCsatcsvFile = new JButton("Select csat (.csv) file to sync");
+	private final JButton btnSelectQacsv = new JButton("Select qa (.csv) file to sync");
+	private final JButton btnSelectEscalationcsv = new JButton("Select escalation (.csv) file to sync");
+	private final JButton btnSync = new JButton("SYNC");
 
 	public GUI() {
-		automaticPanel.setLayout(new MigLayout("", "[][]", "[][][][][][][]"));
+		automaticPanel.setLayout(new MigLayout("", "[][]", "[][][][][][][][][][]"));
 		lblAutomaticSync.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		automaticPanel.add(lblAutomaticSync, "cell 0 1");
@@ -82,6 +85,12 @@ public class GUI{
 		automaticPanel.add(btnSelectScorecardCSVFile, "cell 1 5");
 		
 		automaticPanel.add(btnSelectCsatcsvFile, "cell 1 6,growx");
+		
+		automaticPanel.add(btnSelectQacsv, "cell 1 7,growx");
+		
+		automaticPanel.add(btnSelectEscalationcsv, "cell 1 8");
+		
+		automaticPanel.add(btnSync, "cell 1 9,growx");
 		manualPanel.setLayout(
 				new MigLayout("", "[46px][][grow]", "[14px][][][][][][][][][][][][][][][][][][][][][][][][]"));
 
@@ -317,4 +326,17 @@ public class GUI{
 	void addAutomaticScorecardListener(ActionListener event ){
 		btnSelectScorecardCSVFile.addActionListener(event);
 	}
+	
+	void addAutomaticQAListener(ActionListener event ){
+		btnSelectQacsv.addActionListener(event);
+	}
+	
+	void addAutomaticEscalationListener(ActionListener event ){
+		btnSelectEscalationcsv.addActionListener(event);
+	}
+	
+	void addAutomaticSync(ActionListener event ){
+		btnSync.addActionListener(event);
+	}
+	
 }

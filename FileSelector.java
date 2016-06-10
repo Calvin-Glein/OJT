@@ -67,6 +67,34 @@ public class FileSelector {
 		db.loadCSVScorecard(csvFile);
 		System.out.println("nasa scorecardcsv");
 	}
+
+	public void qaCSV(){
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			csvFile = fileChooser.getSelectedFile();
+			System.out.println(csvFile.getName());
+			System.out.println(csvFile.getPath());
+					
+		}
+		db.loadCSVQA(csvFile);
+	}
+	
+	public void escalationCSV(){
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			csvFile = fileChooser.getSelectedFile();
+			System.out.println(csvFile.getName());
+			System.out.println(csvFile.getPath());
+					
+		}
+		db.loadCSVEscalation(csvFile);
+	}
+	
+	public void sync(){
+		db.sync();
+	}
+
+	
 }
 
 // public String getCSVPath() {
