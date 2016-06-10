@@ -10,25 +10,21 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.PreparedStatement;
 
-
-
 public class DBConnect {
 
 	private java.sql.Connection con;
 	private ResultSet rs;
-	
-
 
 	public DBConnect() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3305/intern","root","1234");
-
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3305/intern", "root", "1234");
 
 			con.createStatement();
 
@@ -36,7 +32,6 @@ public class DBConnect {
 			System.out.println("Error: " + ex);
 		}
 	}
-	
 
 	public void addScore(Scorecard scorecard) {
 		String query = "insert into onebiopsscorecard(employee_id, year, month, full_name, team, total_tickets, cwte2e, cwtdisputed, missed_tickets, fyr, controllable_miss, call_registration, csat, qa, external_escalation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -44,8 +39,8 @@ public class DBConnect {
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setInt(1, scorecard.getId());
-			preparedStatement.setInt(2, scorecard.getMonth());
-			preparedStatement.setInt(3, scorecard.getYear());
+			preparedStatement.setInt(2, scorecard.getYear());
+			preparedStatement.setInt(3, scorecard.getMonth());
 			preparedStatement.setString(4, scorecard.getFullname());
 			preparedStatement.setString(5, scorecard.getTeam());
 			preparedStatement.setInt(6, scorecard.getTotalTickets());
@@ -58,27 +53,25 @@ public class DBConnect {
 			preparedStatement.setDouble(13, scorecard.getCsat());
 			preparedStatement.setDouble(14, scorecard.getQa());
 			preparedStatement.setInt(15, scorecard.getExternalEscalation());
-			
+
 			preparedStatement.executeUpdate();
 
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
 	}
-	
+
 	public ArrayList<String> getEmployeeData(String colName) {
-		
-		String column = null;;
-		if(colName.equals("id")){
+
+		String column = null;
+		;
+		if (colName.equals("id")) {
 			column = "employee_id";
-		}
-		else if(colName.equals("firstname")){
+		} else if (colName.equals("firstname")) {
 			column = "first_name";
-		}
-		else if(colName.equals("lastname")){
+		} else if (colName.equals("lastname")) {
 			column = "last_name";
-		}
-		else if(colName.equals("nickname")){
+		} else if (colName.equals("nickname")) {
 			column = "nick_name";
 		}
 		String query = "SELECT " + column + " as 'employeeInfo' from employee";
@@ -89,7 +82,7 @@ public class DBConnect {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
 
-			while (rs.next()) { 	
+			while (rs.next()) {
 				arr_employeeInformation.add(rs.getString("employeeInfo"));
 			}
 		} catch (Exception ex) {
@@ -98,9 +91,8 @@ public class DBConnect {
 
 		return arr_employeeInformation;
 	}
-	
+
 	public ArrayList<String> getEmployeeFullName() {
-		
 
 		String query = "SELECT full_name from employee";
 
@@ -121,16 +113,12 @@ public class DBConnect {
 
 		return arr_employeeInformation;
 	}
-	
-	public int getID(String fullname) {
-		
-		int id = -1;
-		
-			
-		
-		String query = "SELECT employee_id from employee where full_name = ?";
 
-		
+	public int getID(String fullname) {
+
+		int id = -1;
+
+		String query = "SELECT employee_id from employee where full_name = ?";
 
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
@@ -147,16 +135,16 @@ public class DBConnect {
 
 		return id;
 	}
-	
-	public void loadCSVScorecard(File path){
-		
-		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.onebiopsscorecard FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'";
+
+	public void loadCSVScorecard(File path) {
+
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.temp_scorecard FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' "
+				+ "IGNORE 1 LINES  (@date, name, team, total_tickets, e2e, disputed, missed_tickets, fyr, controllable_miss, call_registration) SET date = "
+				+ "STR_TO_DATE(@date, '%m/%d/%Y')";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setString(1, path.getPath());
 
-	
-			
 			preparedStatement.executeUpdate();
 
 		} catch (Exception ex) {
@@ -164,30 +152,38 @@ public class DBConnect {
 		}
 		System.out.println("done");
 
-
 	}
-	
-	public void loadCSVEmployee(File path){
-		
+
+	public void loadCSVEmployee(File path) {
+
 		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.employee FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setString(1, path.getPath());
 
-	
-			
 			preparedStatement.executeUpdate();
 
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-		System.out.println("done");
+		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
+	}
+	
+	public void loadCSVCSAT(File path) {
+
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.csat FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, path.getPath());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
 	
 	
-	
-	
-	
-
 
 }

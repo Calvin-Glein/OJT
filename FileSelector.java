@@ -23,6 +23,12 @@ public class FileSelector {
 
 	public FileSelector() {
 
+		
+		
+		
+	}
+
+	public void employeeCSV() {
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			csvFile = fileChooser.getSelectedFile();
@@ -32,15 +38,34 @@ public class FileSelector {
 
 			
 //			System.out.println("sa csvsync  " + path);
-			db.loadCSVEmployee(csvFile);
+		
+			
+			
 		}
-		
-		
+		db.loadCSVEmployee(csvFile);
 	}
-
-	public void syncCSV() {
 	
-		
+	public void csatCSV(){
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			csvFile = fileChooser.getSelectedFile();
+			System.out.println(csvFile.getName());
+			System.out.println(csvFile.getPath());
+					
+		}
+		db.loadCSVCSAT(csvFile);
+	}
+	
+	public void scorecardCSV(){
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			csvFile = fileChooser.getSelectedFile();
+			System.out.println(csvFile.getName());
+			System.out.println(csvFile.getPath());
+					
+		}
+		db.loadCSVScorecard(csvFile);
+		System.out.println("nasa scorecardcsv");
 	}
 }
 
