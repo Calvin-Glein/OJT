@@ -24,7 +24,7 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			db.addScore(new Scorecard(gui.getEmployeeID(), gui.getMonth(), gui.getYear(), gui.getFullname(),
+			db.addScore(new Scorecard(gui.getEmployeeID(), gui.getDate(), gui.getFullname(),
 					gui.getTeam(), gui.getTotalTickets(), gui.getE2E(), gui.getDisputed(), gui.getMissedTickets(),
 					gui.getFYR(), gui.getControllableMis(), gui.getCallRegistration(), gui.getCSAT(), gui.getQA(),
 					gui.getExternalEscalation()));

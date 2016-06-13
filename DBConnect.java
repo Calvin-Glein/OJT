@@ -33,26 +33,57 @@ public class DBConnect {
 		}
 	}
 
+//	public void addScore(Scorecard scorecard) {
+//		String query = "insert into scorecard(employee_id, year, month, full_name, team, total_tickets, cwte2e, cwtdisputed, missed_tickets, fyr, controllable_miss, call_registration, csat, qa, external_escalation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//
+//		try {
+//			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+//			preparedStatement.setInt(1, scorecard.getId());
+//			preparedStatement.setInt(2, scorecard.getYear());
+//			preparedStatement.setInt(3, scorecard.getMonth());
+//			preparedStatement.setString(4, scorecard.getFullname());
+//			preparedStatement.setString(5, scorecard.getTeam());
+//			preparedStatement.setInt(6, scorecard.getTotalTickets());
+//			preparedStatement.setDouble(7, scorecard.getCwtE2E());
+//			preparedStatement.setDouble(8, scorecard.getCwtDisputed());
+//			preparedStatement.setInt(9, scorecard.getMissedTickets());
+//			preparedStatement.setInt(10, scorecard.getFyr());
+//			preparedStatement.setInt(11, scorecard.getControllableMiss());
+//			preparedStatement.setDouble(12, scorecard.getCallRegistration());
+////				preparedStatement.setDouble(13, scorecard.getCsat());
+////			preparedStatement.setDouble(14, scorecard.getQa());
+////			preparedStatement.setInt(15, scorecard.getExternalEscalation());
+//
+//			preparedStatement.executeUpdate();
+//
+//		} catch (Exception ex) {
+//			System.out.println(ex);
+//		}
+//	}
+
+	public java.sql.Date convertJavaDateToSqlDate(java.util.Date date) {
+		return new java.sql.Date(date.getTime());
+	}
+
+	
 	public void addScore(Scorecard scorecard) {
-		String query = "insert into onebiopsscorecard(employee_id, year, month, full_name, team, total_tickets, cwte2e, cwtdisputed, missed_tickets, fyr, controllable_miss, call_registration, csat, qa, external_escalation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "insert into scorecard(date, name, team, total_tickets, e2e, disputed, missed_tickets, fyr, controllable_miss, call_registration) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			preparedStatement.setInt(1, scorecard.getId());
-			preparedStatement.setInt(2, scorecard.getYear());
-			preparedStatement.setInt(3, scorecard.getMonth());
-			preparedStatement.setString(4, scorecard.getFullname());
-			preparedStatement.setString(5, scorecard.getTeam());
-			preparedStatement.setInt(6, scorecard.getTotalTickets());
-			preparedStatement.setDouble(7, scorecard.getCwtE2E());
-			preparedStatement.setDouble(8, scorecard.getCwtDisputed());
-			preparedStatement.setInt(9, scorecard.getMissedTickets());
-			preparedStatement.setInt(10, scorecard.getFyr());
-			preparedStatement.setInt(11, scorecard.getControllableMiss());
-			preparedStatement.setDouble(12, scorecard.getCallRegistration());
-			preparedStatement.setDouble(13, scorecard.getCsat());
-			preparedStatement.setDouble(14, scorecard.getQa());
-			preparedStatement.setInt(15, scorecard.getExternalEscalation());
+			preparedStatement.setDate(1, convertJavaDateToSqlDate(scorecard.getDate()));
+			preparedStatement.setString(2, scorecard.getFullname());
+			preparedStatement.setString(3, scorecard.getTeam());
+			preparedStatement.setInt(4, scorecard.getTotalTickets());
+			preparedStatement.setDouble(5, scorecard.getCwtE2E());
+			preparedStatement.setDouble(6, scorecard.getCwtDisputed());
+			preparedStatement.setInt(7, scorecard.getMissedTickets());
+			preparedStatement.setInt(8, scorecard.getFyr());
+			preparedStatement.setInt(9, scorecard.getControllableMiss());
+			preparedStatement.setDouble(10, scorecard.getCallRegistration());
+//				preparedStatement.setDouble(13, scorecard.getCsat());
+//			preparedStatement.setDouble(14, scorecard.getQa());
+//			preparedStatement.setInt(15, scorecard.getExternalEscalation());
 
 			preparedStatement.executeUpdate();
 
@@ -60,7 +91,7 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
-
+	
 	public ArrayList<String> getEmployeeData(String colName) {
 
 		String column = null;
