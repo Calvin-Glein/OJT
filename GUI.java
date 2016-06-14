@@ -86,6 +86,7 @@ public class GUI implements ActionListener {
 	private final JTextField txtDate = new JTextField();
 	private Date dateFrom;
 	private String dateString;
+	private final JButton btnViewScorecard = new JButton("View Scorecard");
 
 	public GUI() {
 		txtDate.setColumns(10);
@@ -276,6 +277,8 @@ public class GUI implements ActionListener {
 		manualPanel.add(txtExternalEscalation, "cell 2 20,growx,aligny top");
 
 		manualPanel.add(btnEnter, "cell 2 21,growx");
+		
+		manualPanel.add(btnViewScorecard, "cell 0 25 3 1,growx");
 
 		frame.getContentPane().setLayout(new BorderLayout());
 
@@ -451,6 +454,10 @@ public class GUI implements ActionListener {
 
 	void addAutomaticSync(ActionListener event) {
 		btnSync.addActionListener(event);
+	}
+	
+	void addViewScorecardListener(ActionListener event){
+		btnViewScorecard.addActionListener(event);
 	}
 
 	@Override

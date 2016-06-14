@@ -5,11 +5,8 @@ public class Controller {
 
 	private DBConnect db = new DBConnect();
 	private GUI gui;
-	private Scorecard scorecard;
-
 	public Controller(GUI gui, Scorecard scorecard) {
 		this.gui = gui;
-		this.scorecard = scorecard;
 		this.gui.addManualListener(new GUIListenerManual());
 		this.gui.addAutomaticEmployeeListener(new GUIListenerEmployee());
 		this.gui.addAutomaticCSATListener(new GUIListenerCSAT());
@@ -17,6 +14,7 @@ public class Controller {
 		this.gui.addAutomaticQAListener(new GUIListenerQA());
 		this.gui.addAutomaticEscalationListener(new GUIListenerEscalation());
 		this.gui.addAutomaticSync(new GUIListenerSync());
+		this.gui.addViewScorecardListener(new GUIListenerViewScorecard());
 	}
 
 	class GUIListenerManual implements ActionListener {
@@ -133,6 +131,14 @@ public class Controller {
 			FileSelector fileSelector = new FileSelector();
 			fileSelector.sync();
 
+		}
+
+	}
+	
+	class GUIListenerViewScorecard implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			GUIScorecard guiScorecard = new GUIScorecard();
 		}
 
 	}

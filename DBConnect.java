@@ -305,7 +305,7 @@ public class DBConnect {
 	public void sync() {
 
 		String query = "DROP TABLE `intern`.`final_scorecard`;";
-		
+
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 
@@ -315,8 +315,7 @@ public class DBConnect {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Oops, something went wrong with dropping \"final_scorecard\" table");
 		}
-		
-		
+
 		query = " create table final_scorecard AS SELECT s.date, s.name, s.team, s.total_tickets, s.e2e, s.disputed, s.missed_tickets, s.fyr, s.controllable_miss, "
 				+ "s.call_registration, c.csat, q.qa, e.escalation FROM csat c, scorecard s, qa q, escalation e where UPPER(TRIM(c.name)) = "
 				+ "UPPER(TRIM(s.name)) && UPPER(TRIM(s.name)) =UPPER(TRIM(q.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(e.name))  && "
@@ -329,8 +328,87 @@ public class DBConnect {
 			JOptionPane.showMessageDialog(null, "Files synced");
 
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Oops, something went wrong with syncing/creating the \"final_scorecard\" table ");
+			JOptionPane.showMessageDialog(null,
+					"Oops, something went wrong with syncing/creating the \"final_scorecard\" table ");
 		}
+	}
+
+	public DefaultTableModel retrieveScorecard()) {
+	
+		DefaultTableModel model;
+		
+		Date date;
+		String name;
+		String team;
+		int total_tickets;
+		double e2e;
+		double disputed;
+		int missed_tickets;
+		int fyr;
+		double controllable_mis;
+		double csat;
+		double qa;
+		int escalation;
+		
+		
+		model = new DefaultTableModel() {
+			String[] colname = { "DATE", "NAME", "TEAM", "TOTAL TICKETS", "E2E", "DISPUTED", "MISSED TICKETS", "FYR", "CONTROLLABLE MISS","CALL REGISTRATION", "CSAT","QA","ESCALATION"};
+
+			@Override
+			public int getColumnCount() {
+				return colname.length;
+			}
+
+			@Override
+			public String getColumnName(int index) {
+				return colname[index];
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// all cells false
+				return false;
+			}
+		};
+
+		String query = "SELECT s.date, s.name, s.team, s.total_tickets, s.e2e, s.disputed, s.missed_tickets, s.fyr, s.controllable_miss, s.call_registration, c.csat, q.qa, e.escalation FROM csat c, scorecard s, qa q, escalation e where UPPER(TRIM(c.name)) = UPPER(TRIM(s.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(q.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(e.name))  && month(s.date) = month(c.date) && month(s.date) = month(q.date) && month(s.date) = month(e.date) group by year(s.date), month(s.date), day(s.date), name, s.date;";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				
+				date = rs.getDate("date");
+				 name = rs.getString("name");
+				 team = rs.getString("team");
+				 total_tickets = rs.getInt("total_tickets");
+				 e2e = rs.getDouble("e2e");
+				 disputed;
+				 missed_tickets;
+				 fyr;
+				 controllable_mis;
+				 csat;
+				 qa;
+				 escalation;
+				
+				receipt_number = rs.getInt("receiptID");
+				productName = rs.getString("sold_ProductName");
+				sold_price = rs.getDouble("sold_price");
+				sold_quantity = rs.getInt("sold_Quantity");
+				sold_customer = rs.getString("customer_name");
+				staffName = rs.getString("staffName");
+
+				model.addRow(new Object[] { Integer.toString(receipt_number), productName, df.format(sold_price),
+						Integer.toString(sold_quantity), sold_customer, staffName });
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		return model;
+
 	}
 
 }
