@@ -24,10 +24,44 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			db.addScore(new Scorecard(gui.getEmployeeID(), gui.getDate(), gui.getFullname(),
-					gui.getTeam(), gui.getTotalTickets(), gui.getE2E(), gui.getDisputed(), gui.getMissedTickets(),
-					gui.getFYR(), gui.getControllableMis(), gui.getCallRegistration(), gui.getCSAT(), gui.getQA(),
-					gui.getExternalEscalation()));
+			// for wrong inputs/sentinel value
+			if (gui.getTotalTickets() == -1) {
+				System.out.println("wrong total tickets");
+			} else if (gui.getE2E() == -1) {
+				System.out.println("wrong e2e");
+
+			} else if (gui.getDisputed() == -1) {
+				System.out.println("wrong disputed");
+
+			} else if (gui.getMissedTickets() == -1) {
+				System.out.println("wrong missed tickets");
+
+			} else if (gui.getFYR() == -1) {
+				System.out.println("wrong fyr");
+
+			} else if (gui.getControllableMis() == -1) {
+				System.out.println("wrong controllble mis");
+
+			} else if (gui.getCallRegistration() == -1) {
+				System.out.println("wrong registration");
+
+			} else if (gui.getCSAT() == -1) {
+				System.out.println("wrong csat");
+
+			} else if (gui.getQA() == -1) {
+				System.out.println("wrong qa");
+
+			} else if (gui.getExternalEscalation() == -1) {
+				System.out.println("wrong escalation");
+
+			} else {
+
+				db.addScore(new Scorecard(gui.getEmployeeID(), gui.getDate(), gui.getFullname(), gui.getTeam(),
+						gui.getTotalTickets(), gui.getE2E(), gui.getDisputed(), gui.getMissedTickets(), gui.getFYR(),
+						gui.getControllableMis(), gui.getCallRegistration(), gui.getCSAT(), gui.getQA(),
+						gui.getExternalEscalation()));
+			}
+
 		}
 
 	}
@@ -86,11 +120,11 @@ public class Controller {
 			// TODO Auto-generated method stub
 			FileSelector fileSelector = new FileSelector();
 			fileSelector.escalationCSV();
-			 			 
+
 		}
 
 	}
-	
+
 	class GUIListenerSync implements ActionListener {
 
 		@Override
@@ -98,11 +132,9 @@ public class Controller {
 			// TODO Auto-generated method stub
 			FileSelector fileSelector = new FileSelector();
 			fileSelector.sync();
-			 			 
+
 		}
 
 	}
-	
-	
 
 }

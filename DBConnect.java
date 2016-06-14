@@ -33,39 +33,42 @@ public class DBConnect {
 		}
 	}
 
-//	public void addScore(Scorecard scorecard) {
-//		String query = "insert into scorecard(employee_id, year, month, full_name, team, total_tickets, cwte2e, cwtdisputed, missed_tickets, fyr, controllable_miss, call_registration, csat, qa, external_escalation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-//
-//		try {
-//			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-//			preparedStatement.setInt(1, scorecard.getId());
-//			preparedStatement.setInt(2, scorecard.getYear());
-//			preparedStatement.setInt(3, scorecard.getMonth());
-//			preparedStatement.setString(4, scorecard.getFullname());
-//			preparedStatement.setString(5, scorecard.getTeam());
-//			preparedStatement.setInt(6, scorecard.getTotalTickets());
-//			preparedStatement.setDouble(7, scorecard.getCwtE2E());
-//			preparedStatement.setDouble(8, scorecard.getCwtDisputed());
-//			preparedStatement.setInt(9, scorecard.getMissedTickets());
-//			preparedStatement.setInt(10, scorecard.getFyr());
-//			preparedStatement.setInt(11, scorecard.getControllableMiss());
-//			preparedStatement.setDouble(12, scorecard.getCallRegistration());
-////				preparedStatement.setDouble(13, scorecard.getCsat());
-////			preparedStatement.setDouble(14, scorecard.getQa());
-////			preparedStatement.setInt(15, scorecard.getExternalEscalation());
-//
-//			preparedStatement.executeUpdate();
-//
-//		} catch (Exception ex) {
-//			System.out.println(ex);
-//		}
-//	}
+	// public void addScore(Scorecard scorecard) {
+	// String query = "insert into scorecard(employee_id, year, month,
+	// full_name, team, total_tickets, cwte2e, cwtdisputed, missed_tickets, fyr,
+	// controllable_miss, call_registration, csat, qa, external_escalation)
+	// VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	//
+	// try {
+	// PreparedStatement preparedStatement = (PreparedStatement)
+	// con.prepareStatement(query);
+	// preparedStatement.setInt(1, scorecard.getId());
+	// preparedStatement.setInt(2, scorecard.getYear());
+	// preparedStatement.setInt(3, scorecard.getMonth());
+	// preparedStatement.setString(4, scorecard.getFullname());
+	// preparedStatement.setString(5, scorecard.getTeam());
+	// preparedStatement.setInt(6, scorecard.getTotalTickets());
+	// preparedStatement.setDouble(7, scorecard.getCwtE2E());
+	// preparedStatement.setDouble(8, scorecard.getCwtDisputed());
+	// preparedStatement.setInt(9, scorecard.getMissedTickets());
+	// preparedStatement.setInt(10, scorecard.getFyr());
+	// preparedStatement.setInt(11, scorecard.getControllableMiss());
+	// preparedStatement.setDouble(12, scorecard.getCallRegistration());
+	//// preparedStatement.setDouble(13, scorecard.getCsat());
+	//// preparedStatement.setDouble(14, scorecard.getQa());
+	//// preparedStatement.setInt(15, scorecard.getExternalEscalation());
+	//
+	// preparedStatement.executeUpdate();
+	//
+	// } catch (Exception ex) {
+	// System.out.println(ex);
+	// }
+	// }
 
 	public java.sql.Date convertJavaDateToSqlDate(java.util.Date date) {
 		return new java.sql.Date(date.getTime());
 	}
 
-	
 	public void addScore(Scorecard scorecard) {
 		String query = "insert into scorecard(date, name, team, total_tickets, e2e, disputed, missed_tickets, fyr, controllable_miss, call_registration) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
@@ -81,17 +84,62 @@ public class DBConnect {
 			preparedStatement.setInt(8, scorecard.getFyr());
 			preparedStatement.setInt(9, scorecard.getControllableMiss());
 			preparedStatement.setDouble(10, scorecard.getCallRegistration());
-//				preparedStatement.setDouble(13, scorecard.getCsat());
-//			preparedStatement.setDouble(14, scorecard.getQa());
-//			preparedStatement.setInt(15, scorecard.getExternalEscalation());
+			// preparedStatement.setDouble(13, scorecard.getCsat());
+			// preparedStatement.setDouble(14, scorecard.getQa());
+			// preparedStatement.setInt(15, scorecard.getExternalEscalation());
 
 			preparedStatement.executeUpdate();
 
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+
+		query = "insert into csat(date, name, csat) VALUES (?,?,?)";
+
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setDate(1, convertJavaDateToSqlDate(scorecard.getDate()));
+			preparedStatement.setString(2, scorecard.getFullname());
+			preparedStatement.setDouble(3, scorecard.getCsat());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		query = "insert into escalation(date, name, escalation) VALUES (?,?,?)";
+
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setDate(1, convertJavaDateToSqlDate(scorecard.getDate()));
+			preparedStatement.setString(2, scorecard.getFullname());
+			preparedStatement.setInt(3, scorecard.getExternalEscalation());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		query = "insert into qa(date, name, qa) VALUES (?,?,?)";
+
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setDate(1, convertJavaDateToSqlDate(scorecard.getDate()));
+			preparedStatement.setString(2, scorecard.getFullname());
+			preparedStatement.setDouble(3, scorecard.getQa());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		JOptionPane.showMessageDialog(null, "Data for " + scorecard.getFullname() + " added.");
+
 	}
-	
+
 	public ArrayList<String> getEmployeeData(String colName) {
 
 		String column = null;
@@ -177,11 +225,13 @@ public class DBConnect {
 			preparedStatement.setString(1, path.getPath());
 
 			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 
 		} catch (Exception ex) {
 			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, "Please select the right file with .csv format");
+
 		}
-		System.out.println("done");
 
 	}
 
@@ -193,74 +243,94 @@ public class DBConnect {
 			preparedStatement.setString(1, path.getPath());
 
 			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, "Please select the right file with .csv format");
+
 		}
-		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
-	
 
 	public void loadCSVQA(File path) {
 
-		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.qa FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.qa FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' "
+				+ "IGNORE 1 LINES  (@date, name, qa	) SET date = STR_TO_DATE(@date, '%m/%d/%Y')";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setString(1, path.getPath());
 
 			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, "Please select the right file with .csv format");
+
 		}
-		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
-	
+
 	public void loadCSVCSAT(File path) {
 
-		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.csat FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.csat FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' "
+				+ "IGNORE 1 LINES  (@date, name, csat) SET date = STR_TO_DATE(@date, '%m/%d/%Y')";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setString(1, path.getPath());
 
 			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, "Please select the right file with .csv format");
+
 		}
-		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
-	
+
 	public void loadCSVEscalation(File path) {
 
-		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.escalation FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+		String query = "LOAD DATA LOCAL INFILE ? INTO TABLE intern.escalation FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' "
+				+ "IGNORE 1 LINES  (@date, name, escalation) SET date = STR_TO_DATE(@date, '%m/%d/%Y')";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setString(1, path.getPath());
 
 			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, "Please select the right file with .csv format");
+
 		}
-		JOptionPane.showMessageDialog(null, "Added " + path.getPath());
 	}
-	
-	public void sync(){
-		String query = "create table final_scorecard AS SELECT s.date, s.name, s.team, s.total_tickets, s.e2e, s.disputed, s.missed_tickets, s.fyr, s.controllable_miss, s.call_registration, c.csat, q.qa, e.escalation FROM csat c, scorecard s, qa q, escalation e where UPPER(TRIM(c.name)) =UPPER(TRIM(s.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(q.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(e.name)) group by date, name";
+
+	public void sync() {
+
+		String query = "DROP TABLE `intern`.`final_scorecard`;";
+		
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 
 			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Files synced");
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, "Oops, something went wrong with dropping \"final_scorecard\" table");
 		}
-		JOptionPane.showMessageDialog(null, "Files synced");
+		
+		
+		query = " create table final_scorecard AS SELECT s.date, s.name, s.team, s.total_tickets, s.e2e, s.disputed, s.missed_tickets, s.fyr, s.controllable_miss, "
+				+ "s.call_registration, c.csat, q.qa, e.escalation FROM csat c, scorecard s, qa q, escalation e where UPPER(TRIM(c.name)) = "
+				+ "UPPER(TRIM(s.name)) && UPPER(TRIM(s.name)) =UPPER(TRIM(q.name)) &&  UPPER(TRIM(s.name)) =UPPER(TRIM(e.name))  && "
+				+ "month(s.date) = month(c.date) && month(s.date) = month(q.date) && month(s.date) = month(e.date) group by year(s.date), "
+				+ "month(s.date), day(s.date), name, s.date;";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+
+			preparedStatement.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Files synced");
+
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Oops, something went wrong with syncing/creating the \"final_scorecard\" table ");
+		}
 	}
-	
-	
-	
-	
 
 }

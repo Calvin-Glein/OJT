@@ -192,26 +192,22 @@ public class GUI implements ActionListener {
 				}
 			}
 		});
-		
-
-		
 
 		btnSet.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					dateFrom = datePicker.getDate();
-					dateString = formatter.format(dateFrom);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				dateFrom = datePicker.getDate();
+				dateString = formatter.format(dateFrom);
 
-					txtDate.setText("");
+				txtDate.setText("");
 
-					txtDate.setText(dateString);
+				txtDate.setText(dateString);
 
-					calendarFrame.dispose();
-					calendarFrame = new JFrame("Calendar");
+				calendarFrame.dispose();
+				calendarFrame = new JFrame("Calendar");
 
-				
 			}
 		});
 
@@ -309,7 +305,6 @@ public class GUI implements ActionListener {
 	// return new Date(new SimpleDateFormat(getYear(), getMonth(), "1"));
 	// }
 
-
 	public String getFullname() {
 		return txtFullname.getText();
 	}
@@ -319,50 +314,116 @@ public class GUI implements ActionListener {
 	}
 
 	public int getTotalTickets() {
+		try {
+			Integer.parseInt(txtTotalTickets.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct total tickets value");
+			return -1;
+		}
+
 		return Integer.parseInt(txtTotalTickets.getText());
+
 	}
 
 	public double getE2E() {
+		try {
+			Double.parseDouble(txtE2E.getText());
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct E2E value");
+			return -1;
+
+		}
 		return Double.parseDouble(txtE2E.getText());
 	}
 
 	public double getDisputed() {
+		try {
+			Double.parseDouble(txtDisputed.getText());
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct disputed value");
+			return -1;
+
+		}
 		return Double.parseDouble(txtDisputed.getText());
+
 	}
 
 	public int getMissedTickets() {
+		try {
+			Integer.parseInt(txtMissedTickets.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct disputed value");
+			return -1;
+		}
 		return Integer.parseInt(txtMissedTickets.getText());
 	}
 
 	public int getFYR() {
+		try {
+			Integer.parseInt(txtFYR.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct FYR value");
+			return -1;
+		}
 		return Integer.parseInt(txtFYR.getText());
 	}
 
 	public int getControllableMis() {
+		try {
+			Integer.parseInt(txtControllableMis.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct controllable mis value");
+			return -1;
+		}
 		return Integer.parseInt(txtControllableMis.getText());
 	}
 
 	public double getCallRegistration() {
+		try {
+			Double.parseDouble(txtCallRegistration.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct call registration value");
+			return -1;
+		}
 		return Double.parseDouble(txtCallRegistration.getText());
 	}
 
 	public double getCSAT() {
+		try {
+			Double.parseDouble(txtCSAT.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct CSAT value");
+			return -1;
+		}
 		return Double.parseDouble(txtCSAT.getText());
 	}
 
 	public double getQA() {
+		try {
+			Double.parseDouble(txtQA.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct QA value");
+			return -1;
+		}
 		return Double.parseDouble(txtQA.getText());
 	}
 
 	public int getExternalEscalation() {
+		try {
+			Integer.parseInt(txtExternalEscalation.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Please correct external escalation value");
+			return -1;
+
+		}
 		return Integer.parseInt(txtExternalEscalation.getText());
 	}
-	
-	
-	public Date getDate(){
+
+	public Date getDate() {
 		return dateFrom;
 	}
-
 
 	void addManualListener(ActionListener event) {
 		btnEnter.addActionListener(event);
@@ -397,6 +458,5 @@ public class GUI implements ActionListener {
 		// TODO Auto-generated method stub
 
 	}
-	
 
 }
